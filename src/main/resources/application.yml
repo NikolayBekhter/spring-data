@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/web-shop
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddl-auto: create
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml

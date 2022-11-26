@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <changeSet id="product" author="BekhterNikolay">
+        <createTable tableName="products">
+            
+            <column name="id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="varchar(255)"/>
+
+            <column name="cost" type="int"/>
+
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="product.pk" author="BekhterNikolay">
+        <addPrimaryKey tableName="products" columnNames="id" constraintName="product.pk"/>
+    </changeSet>
+    
+</databaseChangeLog>
