@@ -38,4 +38,9 @@ public class ProductController {
         productRepository.deleteById(id);
     }
 
+    @GetMapping("/between")
+    public List<Product> findBetween (@RequestParam int begin, @RequestParam int end) {
+        return myQuery.findAllBetweenValue(begin, end);
+    }
+
 }
