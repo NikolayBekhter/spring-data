@@ -1,29 +1,47 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    console.log("начало");
-    const contextPath = 'http://localhoct:8081';
+    const contextPath = 'http://localhost:8081';
 
     $scope.loadProducts = function () {
-        console.log(2);
         $http.get(contextPath + '/products')
             .then(function (response) {
                 console.log(response.data);
-                $scope.ProductsList = response.data;
+                $scope.ProductList = response.data;
             });
     };
 
     $scope.deleteProduct = function (productId) {
-        $http.get(contextPath + '/products/delete' + productId)
+        $http.get(contextPath + '/products/delete/' + productId)
             .then(function (response) {
                 $scope.loadProducts();
             });
     }
 
     $scope.updateProduct = function () {
-        console.log($scope.updatedProduct);
+        $http({
+            url: contextPath + '/products/add',
+            method: 'post',
+            params: {
+                title: $scope.update_product.title,
+                cost: $scope.update_product.cost
+            }
+        }).then(function (response) {
+            $scope.loadProducts();
+        });
+    };
 
-    }
+    $scope.findAllBetween = function () {
+            $http({
+                url: contextPath + '/products/between',
+                method: 'get',
+                params: {
+                    begin: $scope.begin.cost,
+                    end: $scope.end.cost
+                }
+            }).then(function (response) {
+                $scope.ProductList = response.data;
+            });
+        };
 
-    console.log(1);
     $scope.loadProducts();
 
 });
