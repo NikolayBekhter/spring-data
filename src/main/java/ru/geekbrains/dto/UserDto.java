@@ -1,15 +1,11 @@
 package ru.geekbrains.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.geekbrains.model.User;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class UserDto {
 
     private Long id;
@@ -17,10 +13,4 @@ public class UserDto {
     private int age;
     private String email;
 
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.age = user.getAge();
-        this.email = user.getEmail();
-    }
 }

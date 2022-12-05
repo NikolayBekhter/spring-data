@@ -50,6 +50,29 @@
             <td>{{p.cost}}</td>
             <td>
                 <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+                <button class="btn btn-success" ng-click="sendToBasket(p.id)">Добавить в корзину</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <h3>Корзина</h3>
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>ID</td>
+            <td>Название продукта</td>
+            <td>Цена</td>
+            <td>Покупатель</td>
+            <td>Действие</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="b in BasketList">
+            <td>{{b.id}}</td>
+            <td>{{b.title}}</td>
+            <td>{{b.cost}}</td>
+            <td>{{b.name}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteFromBasket(b.id)">Удалить из корзины</button>
             </td>
         </tr>
         </tbody>
@@ -57,6 +80,8 @@
     <p></p>
     <h3>Добавить продукт</h3>
     <form novalidate ng-submit="updateProduct()">
+        <input class="form-control" type="number" placeholder="ID" ng-model="update_product.id">
+        <p></p>
         <input class="form-control" type="text" placeholder="Название продукта" ng-model="update_product.title">
         <p></p>
         <input class="form-control" type="number" placeholder="Цена" ng-model="update_product.cost">
@@ -64,8 +89,7 @@
         <button type="submit" class="btn btn-primary">Сохранить продукт</button>
     </form>
     <form>
-<!--        <button type="submit" class="btn btn-primary">To users</button>-->
-        <a href="/users.html">To users</a>
+        <a href="/users/users.html">To users</a>
     </form>
 </div>
 <a></a>

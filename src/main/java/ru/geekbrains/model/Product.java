@@ -10,10 +10,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -46,9 +45,9 @@ public class Product {
     @JsonBackReference
     private List<User> users;
 
-    public Product(ProductDto productDto) {
-        this.id = productDto.getId();
-        this.title = productDto.getTitle();
-        this.cost = productDto.getCost();
+    public Product(Long id, String title, int cost) {
+        this.id = id;
+        this.title = title;
+        this.cost = cost;
     }
 }
