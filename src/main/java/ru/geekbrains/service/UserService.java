@@ -1,36 +1,28 @@
 package ru.geekbrains.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.dto.UserDto;
+import ru.geekbrains.model.User;
 import ru.geekbrains.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
-    private MappingUtils mappingUtils;
-    public UserService(UserRepository userRepository, MappingUtils mappingUtils) {
-        this.userRepository = userRepository;
-        this.mappingUtils = mappingUtils;
+    private final UserRepository userRepository;
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
-    public List<UserDto> findAllUsers() {
-        return userRepository.findAll().stream()
-                .map(mappingUtils::mapToUserDto)
-                .collect(Collectors.toList());
+    public User findUserById(Long id) {
+        return userRepository.getById(id);
     }
 
-    public UserDto findUserById(Long id) {
-        return mappingUtils.mapToUserDto(
-                userRepository.getById(id)
-        );
-    }
-
-    public void saveUser(UserDto userDto) {
-        userRepository.save(mappingUtils.mapToUser(userDto));
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {

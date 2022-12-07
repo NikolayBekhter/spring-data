@@ -1,37 +1,30 @@
 package ru.geekbrains.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.dto.ProductDto;
 import ru.geekbrains.model.Product;
 import ru.geekbrains.repository.ProductRepository;
 import ru.geekbrains.repository.specifications.ProductSpecifications;
 
 @Component
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
-    private MappingUtils mappingUtils;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository, MappingUtils mappingUtils) {
-        this.productRepository = productRepository;
-        this.mappingUtils = mappingUtils;
-    }
-
-    public void save(ProductDto productDto) {
-        productRepository.save(mappingUtils.mapToProduct(productDto));
+    public Product save(Product product) {
+        return productRepository.save(product);
     }
 
     public void deleteByIdProduct(Long id) {
         productRepository.deleteById(id);
     }
 
-    public ProductDto findUserById(Long id) {
-        return mappingUtils.mapToProductDto(
-                productRepository.getById(id)
-        );
+    public Product findProductById(Long id) {
+        return productRepository.getById(id);
     }
 
     public Page<Product> find(Integer minCost, Integer maxCost, String titlePart, Integer page) {

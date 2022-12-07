@@ -45,13 +45,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mavenlibs.com/maven/dependency/org.webjars.npm/angular -->
 		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>angular</artifactId>
-			<version>1.8.2</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -68,6 +65,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 

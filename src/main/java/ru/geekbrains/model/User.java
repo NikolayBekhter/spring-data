@@ -1,9 +1,6 @@
 package ru.geekbrains.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import ru.geekbrains.dto.UserDto;
@@ -13,10 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -51,10 +47,10 @@ public class User {
     )
     private List<Product> products;
 
-    public User(UserDto userDto) {
-        this.id = userDto.getId();
-        this.name = userDto.getName();
-        this.age = userDto.getAge();
-        this.email = userDto.getEmail();
+    public User(Long id, String name, int age, String email) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.email = email;
     }
 }
