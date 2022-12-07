@@ -87,7 +87,4 @@ public class ProductsRestController {
     public void deleteBasketDto(@PathVariable String id) {
         basketService.deleteBasketById(id);
     }
-
-
-
 }
