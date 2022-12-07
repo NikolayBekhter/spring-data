@@ -1,37 +1,26 @@
 package ru.geekbrains.api;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.dto.BasketDto;
 import ru.geekbrains.dto.ProductDto;
-import ru.geekbrains.model.BasketInProg;
 import ru.geekbrains.model.Product;
-import ru.geekbrains.service.BasketInProgService;
-import ru.geekbrains.service.BasketService;
-import ru.geekbrains.service.MappingUtils;
-import ru.geekbrains.service.ProductService;
+import ru.geekbrains.service.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
 public class ProductsRestController {
 
     private final ProductService productService;
-    private MappingUtils mappingUtils;
-    private BasketInProgService basketInProgService;
+    private final MappingUtils mappingUtils;
     private final BasketService basketService;
-
-    @Autowired
-    public ProductsRestController(ProductService productService,
-                                  MappingUtils mappingUtils,
-                                  BasketInProgService basketInProgService,
-                                  BasketService basketService) {
-        this.productService = productService;
-        this.mappingUtils = mappingUtils;
-        this.basketInProgService = basketInProgService;
-        this.basketService = basketService;
-    }
+    private final UserService userService;
 
     @GetMapping("/{id}")
     public ProductDto getProduct(@PathVariable Long id) {
@@ -51,14 +40,16 @@ public class ProductsRestController {
             page = 1;
         }
         return productService.find(minCost, maxCost, titlePart, page).map(
-                p -> mappingUtils.mapToProductDto(p)
+                mappingUtils::mapToProductDto
         );
     }
 
     @PostMapping
     public ProductDto saveNewProduct(@RequestBody ProductDto productDto) {
-        productDto.setId(null);
-        Product product = mappingUtils.mapToProduct(productDto);
+        Product product = new Product();
+        product.setId(null);
+        product.setTitle(productDto.getTitle());
+        product.setCost(productDto.getCost());
         return mappingUtils.mapToProductDto(productService.save(product));
     }
 
@@ -69,28 +60,34 @@ public class ProductsRestController {
 
     @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        Product product = mappingUtils.mapToProduct(productDto);
+        Product product = productService.findProductById(productDto.getId());
+        product.setTitle(productDto.getTitle());
+        product.setCost(productDto.getCost());
         return mappingUtils.mapToProductDto(productService.save(product));
     }
 
-    @GetMapping("/basket")
-    public List<BasketInProg> getProductsFromBasket() {
-        return basketInProgService.getBasketList();
+    @GetMapping("/baskets")
+    public List<BasketDto> getProductsFromBasket() {
+        return basketService.findAll()
+                .stream()
+                .map(mappingUtils::mapToBasketDto)
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/basket/{id}")
+    @GetMapping("/baskets/{id}")
     public void setProductToBasket(@PathVariable Long id) {
-        BasketInProg basketInProg = new BasketInProg(
-                productService.findProductById(id).getTitle(),
-                productService.findProductById(id).getCost(),
-                "Lena");
-        basketInProgService.addToBasket(basketInProg);
-        String idBasket = basketInProg.getClass().getSimpleName() + basketInProg.hashCode() + basketInProg.getName();
-        basketService.addBasket(idBasket,
-                productService.findProductById(id).getTitle(),
-                productService.findProductById(id).getCost(),
-                "Lena");
-        System.out.println(idBasket);
+        BasketDto basketDto = new BasketDto();
+        basketDto.setTitle(productService.findProductById(id).getTitle());
+        basketDto.setCost(productService.findProductById(id).getCost());
+        basketDto.setName(userService.findUserById(basketService.getUserId()).getName());
+        basketService.addBasket(mappingUtils.mapToBasket(basketDto));
     }
+
+    @DeleteMapping("/baskets/{id}")
+    public void deleteBasketDto(@PathVariable String id) {
+        basketService.deleteBasketById(id);
+    }
+
+
 
 }

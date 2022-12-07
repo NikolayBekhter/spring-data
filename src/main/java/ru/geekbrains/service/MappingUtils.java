@@ -1,8 +1,10 @@
 package ru.geekbrains.service;
 
 import org.springframework.stereotype.Service;
+import ru.geekbrains.dto.BasketDto;
 import ru.geekbrains.dto.ProductDto;
 import ru.geekbrains.dto.UserDto;
+import ru.geekbrains.model.Basket;
 import ru.geekbrains.model.Product;
 import ru.geekbrains.model.User;
 
@@ -25,5 +27,13 @@ public class MappingUtils {
     //из dto в product
     public Product mapToProduct(ProductDto productDto) {
         return new Product(productDto.getId(), productDto.getTitle(), productDto.getCost());
+    }
+    //из basket в dto
+    public BasketDto mapToBasketDto(Basket basket) {
+        return new BasketDto(basket.getId(), basket.getTitle(), basket.getCost(), basket.getName());
+    }
+    //из dto в basket
+    public Basket mapToBasket(BasketDto basketDto) {
+        return new Basket(basketDto.getId(), basketDto.getTitle(), basketDto.getCost(), basketDto.getName());
     }
 }

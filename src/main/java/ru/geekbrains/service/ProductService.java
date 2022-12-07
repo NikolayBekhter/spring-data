@@ -1,5 +1,6 @@
 package ru.geekbrains.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,13 +10,10 @@ import ru.geekbrains.repository.ProductRepository;
 import ru.geekbrains.repository.specifications.ProductSpecifications;
 
 @Component
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     public Product save(Product product) {
         return productRepository.save(product);

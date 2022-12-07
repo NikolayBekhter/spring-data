@@ -7,10 +7,8 @@ import ru.geekbrains.model.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-
     private Long id;
     private String name;
     private int age;
     private String email;
-
 }

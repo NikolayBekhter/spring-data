@@ -12,7 +12,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
             }
         }).then(function (response) {
             console.log(response.data);
-            $scope.ProductList = response.data.content;
+            $scope.ProductPage = response.data.content;
         });
     };
 
@@ -31,23 +31,24 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 });
         };
     $scope.loadBasket = function () {
-                $http.get(contextPath + '/products/basket')
+                $http.get(contextPath + '/products/baskets')
                     .then(function (response) {
                         console.log(response.data);
                         $scope.BasketList = response.data;
                     });
             };
     $scope.sendToBasket = function (productId) {
-            $http.get(contextPath + '/products/basket/'+ productId)
+            $http.get(contextPath + '/products/baskets/'+ productId)
                 .then(function (response) {
                     $scope.loadBasket();
                 });
         };
-    $scope.deleteFromBasket = function (productId) {
-            $http.delete(contextPath + '/products/basket/' + productId)
+    $scope.deleteFromBasket = function (basketId) {
+            $http.delete(contextPath + '/products/baskets/' + basketId)
                 .then(function (response) {
                     $scope.loadBasket();
                 });
         };
     $scope.loadProducts();
+    $scope.loadBasket();
 });

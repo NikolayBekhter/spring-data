@@ -1,5 +1,6 @@
 package ru.geekbrains.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -9,15 +10,11 @@ import ru.geekbrains.repository.ProductRepository;
 import ru.geekbrains.repository.UserRepository;
 
 @Component
+@RequiredArgsConstructor
 public class DatabaseFiller {
 
-    private ProductRepository productRepository;
-    private UserRepository userRepository;
-
-    public DatabaseFiller(ProductRepository productRepository, UserRepository userRepository) {
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-    }
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillDatabaseOnStartApplication() {
